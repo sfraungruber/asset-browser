@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Asset Browser</string>
+
+    <string name="coins">Coins</string>
+    <string name="gainers">Gainers</string>
+    <string name="losers">Losers</string>
+    <string name="selected_currency">Currency: %1$s</string>
+
+    <string name="common_error_title">Something went wrong</string>
+    <string name="common_error_detail">There was an error loading the data. Please check our network connection and try again.</string>
+    <string name="retry">Retry</string>
+
+    <string name="currency_eur">Euro</string>
+    <string name="currency_usd">US Dollar</string>
+    <string name="currency_gbp">British Pound Sterling</string>
+</resources>
