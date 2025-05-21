@@ -34,12 +34,12 @@ jobs:
     - name: Accept licenses
       run: yes | sdkmanager --licenses || true
 
-    - name: Restore gradle.properties
+    - name: Create production.properties
       env:
-        GRADLE_PROPERTIES: ${{ secrets.COINCAP_API_KEY }}
+        COINCAP_API_KEY: ${{ secrets.COINCAP_API_KEY }}
       shell: bash
       run: |
-        echo "COINCAP_API_KEY=${GRADLE_PROPERTIES}" > ./production.properties
+        echo COINCAP_API_KEY=$COINCAP_API_KEY >> ./production.properties
       
     - name: Build with Gradle
       run: ./gradlew :app:testProductionDebugUnitTest
