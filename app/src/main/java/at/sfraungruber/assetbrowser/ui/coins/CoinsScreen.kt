@@ -88,25 +88,24 @@ private fun TabbedCoinsList(
 
     Scaffold(
         topBar = {
-
             TopAppBar(
                 title = {
                     Text(
-                        stringResource(R.string.coins)
+                        stringResource(R.string.coins),
                     )
                 },
                 actions = {
                     Button(
                         onClick = {
                             showCurrencySelection = true
-                        }
+                        },
                     ) {
                         data.currencies?.firstOrNull { it.isSelected }.let {
                             Text(
                                 stringResource(
                                     R.string.selected_currency,
                                     it?.name ?: "-",
-                                )
+                                ),
                             )
                         }
                     }
@@ -117,9 +116,10 @@ private fun TabbedCoinsList(
                     ) {
                         data.currencies?.forEach {
                             DropdownMenuItem(
-                                modifier = Modifier.background(
-                                    if (it.isSelected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface
-                                ),
+                                modifier =
+                                    Modifier.background(
+                                        if (it.isSelected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface,
+                                    ),
                                 text = { Text(it.name) },
                                 onClick = {
                                     onCurrencySelected(it)
@@ -128,7 +128,7 @@ private fun TabbedCoinsList(
                             )
                         }
                     }
-                }
+                },
             )
         },
     ) { innerPadding ->
@@ -144,15 +144,16 @@ private fun TabbedCoinsList(
                 onRefresh = onRefresh,
             ) {
                 data.coins?.map {
-                    val listState = rememberSaveable(
-                        key = it.title,
-                        saver = LazyListState.Saver,
-                    ) {
-                        LazyListState(
-                            firstVisibleItemIndex = 0,
-                            firstVisibleItemScrollOffset = 0
-                        )
-                    }
+                    val listState =
+                        rememberSaveable(
+                            key = it.title,
+                            saver = LazyListState.Saver,
+                        ) {
+                            LazyListState(
+                                firstVisibleItemIndex = 0,
+                                firstVisibleItemScrollOffset = 0,
+                            )
+                        }
 
                     rememberLazyListState()
 
@@ -171,9 +172,7 @@ private fun TabbedCoinsList(
 }
 
 @Composable
-private fun ErrorState(
-    onRetry: () -> Unit,
-) {
+private fun ErrorState(onRetry: () -> Unit) {
     Surface {
         Column(
             modifier =
@@ -208,7 +207,7 @@ private fun ErrorState(
 @Composable
 private fun CoinList(
     coins: ImmutableList<CoinUIModel>,
-    listState: LazyListState = rememberLazyListState()
+    listState: LazyListState = rememberLazyListState(),
 ) {
     LazyColumn(
         state = listState,
@@ -218,7 +217,7 @@ private fun CoinList(
                 .padding(horizontal = Spaces.ScreenPadding)
                 .semantics { contentDescription = "CoinList" },
         verticalArrangement = Arrangement.spacedBy(Spaces.Large),
-        contentPadding = PaddingValues(top = Spaces.Medium)
+        contentPadding = PaddingValues(top = Spaces.Medium),
     ) {
         items(coins, key = { it.id }) {
             CoinItem(it)
@@ -229,9 +228,10 @@ private fun CoinList(
 @Composable
 private fun CoinItem(coin: CoinUIModel) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .semantics { contentDescription = "CoinItem" },
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .semantics { contentDescription = "CoinItem" },
     ) {
         Column(
             modifier =
@@ -254,10 +254,11 @@ private fun CoinItem(coin: CoinUIModel) {
             Text(
                 text = coin.changePercent24Hr,
                 style = MaterialTheme.typography.bodyMedium,
-                color = when (coin.changeColor) {
-                    Positive -> LocalAppThemeColors.current.positive
-                    Negative -> LocalAppThemeColors.current.negative
-                },
+                color =
+                    when (coin.changeColor) {
+                        Positive -> LocalAppThemeColors.current.positive
+                        Negative -> LocalAppThemeColors.current.negative
+                    },
             )
             Text(
                 text = coin.price,
@@ -269,51 +270,54 @@ private fun CoinItem(coin: CoinUIModel) {
 
 @Preview(showBackground = true)
 @Composable
-fun CoinsScreenDataPreview(
-) {
+fun CoinsScreenDataPreview() {
     AppTheme {
         CoinsScreen(
-            state = CoinsViewModel.State.Data(
-                isLoading = false,
-                currencies = persistentListOf(
-                    CurrencyUIModel(
-                        id = "euro",
-                        name = "Euro",
-                        isSelected = true,
-                    )
-                ),
-                coins = persistentListOf(
-                    CoinsUiList(
-                        title = "List #1",
-                        assets = persistentListOf(
-                            CoinUIModel(
-                                id = "btc",
-                                name = "Bitcoin",
-                                symbol = "BTC",
-                                price = "6459.34",
-                                changePercent24Hr = "+4.44%",
-                                changeColor = Positive,
-                            ),
-                            CoinUIModel(
-                                id = "abc",
-                                name = "Alphabet Coin",
-                                symbol = "ABC",
-                                price = "12.02",
-                                changePercent24Hr = "-1.21%",
-                                changeColor = Negative,
+            state =
+                CoinsViewModel.State.Data(
+                    isLoading = false,
+                    currencies =
+                        persistentListOf(
+                            CurrencyUIModel(
+                                id = "euro",
+                                name = "Euro",
+                                isSelected = true,
                             ),
                         ),
-                    ),
-                    CoinsUiList(
-                        title = "List #2",
-                        assets = persistentListOf(),
-                    ),
-                    CoinsUiList(
-                        title = "List #3",
-                        assets = persistentListOf(),
-                    ),
+                    coins =
+                        persistentListOf(
+                            CoinsUiList(
+                                title = "List #1",
+                                assets =
+                                    persistentListOf(
+                                        CoinUIModel(
+                                            id = "btc",
+                                            name = "Bitcoin",
+                                            symbol = "BTC",
+                                            price = "6459.34",
+                                            changePercent24Hr = "+4.44%",
+                                            changeColor = Positive,
+                                        ),
+                                        CoinUIModel(
+                                            id = "abc",
+                                            name = "Alphabet Coin",
+                                            symbol = "ABC",
+                                            price = "12.02",
+                                            changePercent24Hr = "-1.21%",
+                                            changeColor = Negative,
+                                        ),
+                                    ),
+                            ),
+                            CoinsUiList(
+                                title = "List #2",
+                                assets = persistentListOf(),
+                            ),
+                            CoinsUiList(
+                                title = "List #3",
+                                assets = persistentListOf(),
+                            ),
+                        ),
                 ),
-            ),
             onRefresh = {},
             onCurrencySelected = {},
         )
@@ -322,8 +326,7 @@ fun CoinsScreenDataPreview(
 
 @Preview(showBackground = true)
 @Composable
-fun CoinsScreenErrorPreview(
-) {
+fun CoinsScreenErrorPreview() {
     AppTheme {
         CoinsScreen(
             state = CoinsViewModel.State.Error,

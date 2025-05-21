@@ -10,36 +10,35 @@ import org.junit.Test
 
 class CoinRepositoryTest {
     private val mockApi = mockk<CryptoApi>()
-    private val repository = CoinRepository(
-        cryptoApi = mockApi,
-    )
+    private val repository =
+        CoinRepository(
+            cryptoApi = mockApi,
+        )
 
     @Test
-    fun `Given API returns response When get coins from repository Then expected response`() =
-        runTest {
-            // Given
-            coEvery { mockApi.getAsset() } returns baseCoinResponse
+    fun `Given API returns response When get coins from repository Then expected response`() = runTest {
+        // Given
+        coEvery { mockApi.getAsset() } returns baseCoinResponse
 
-            // When
-            val result = repository.getCoins()
+        // When
+        val result = repository.getCoins()
 
-            // Then
-            assertEquals(
-                baseCoinResponse,
-                result,
-            )
-        }
+        // Then
+        assertEquals(
+            baseCoinResponse,
+            result,
+        )
+    }
 
     @Test(expected = IllegalArgumentException::class)
-    fun `When API throws exception Then exception is mapped`() =
-        runTest {
-            // Given
-            coEvery { mockApi.getAsset() } throws IllegalArgumentException("some exception")
+    fun `When API throws exception Then exception is mapped`() = runTest {
+        // Given
+        coEvery { mockApi.getAsset() } throws IllegalArgumentException("some exception")
 
-            // When
-            repository.getCoins()
+        // When
+        repository.getCoins()
 
-            // Then
-            // exception is thrown
-        }
+        // Then
+        // exception is thrown
+    }
 }

@@ -31,14 +31,15 @@ object NetworkModule {
             .addInterceptor { chain ->
                 var request = chain.request()
 
-                val url = request
-                    .url()
-                    .newBuilder()
-                    .addQueryParameter(
-                        "apiKey",
-                        BuildConfig.COINCAP_API_KEY,
-                    )
-                    .build()
+                val url =
+                    request
+                        .url()
+                        .newBuilder()
+                        .addQueryParameter(
+                            "apiKey",
+                            BuildConfig.COINCAP_API_KEY,
+                        )
+                        .build()
 
                 request = request.newBuilder().url(url).build()
                 chain.proceed(request)
@@ -46,7 +47,10 @@ object NetworkModule {
     }
 
     @Provides
-    fun provideRetrofit(okHttpClient: OkHttpClient, json: Json): Retrofit {
+    fun provideRetrofit(
+        okHttpClient: OkHttpClient,
+        json: Json,
+    ): Retrofit {
         return Retrofit.Builder()
             .baseUrl("https://rest.coincap.io/v3/")
             .client(okHttpClient)

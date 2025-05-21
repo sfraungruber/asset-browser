@@ -39,9 +39,9 @@ fun CoinNavHost(
                 },
                 onCurrencySelected = {
                     viewModel.onEvent(
-                        CoinsViewModel.UserEvent.PreferredCurrencySelected(it)
+                        CoinsViewModel.UserEvent.PreferredCurrencySelected(it),
                     )
-                }
+                },
             )
         }
     }

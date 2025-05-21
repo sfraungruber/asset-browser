@@ -85,9 +85,10 @@ data class AppThemeColors(
     val negative: Color,
 )
 
-val LocalAppThemeColors = staticCompositionLocalOf {
-    AppThemeColors(
-        positive = Color.Unspecified,
-        negative = Color.Unspecified,
-    )
-}
+val LocalAppThemeColors =
+    staticCompositionLocalOf {
+        AppThemeColors(
+            positive = Color.Unspecified,
+            negative = Color.Unspecified,
+        )
+    }

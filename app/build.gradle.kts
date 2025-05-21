@@ -84,7 +84,7 @@ composeCompiler {
 
 ktlint {
     android = true
-    ignoreFailures = true
+    ignoreFailures = false
 }
 
 dependencies {

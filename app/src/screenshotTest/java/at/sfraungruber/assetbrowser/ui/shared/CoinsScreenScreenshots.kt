@@ -12,50 +12,53 @@ import kotlinx.collections.immutable.persistentListOf
 class CoinsScreenScreenshots {
     private val dataState = CoinsViewModel.State.Data(
         isLoading = false,
-        coins = persistentListOf(
-            CoinsUiList(
-                title = "Gainers",
-                assets = persistentListOf(
-                    CoinUIModel(
-                        id = "6",
-                        name = "Polkadot",
-                        symbol = "DOT",
-                        price = "€22.73",
-                        changePercent24Hr = "+3.00%",
-                        changeColor = CoinUIModel.ChangeColors.Positive,
-                    ),
-                    CoinUIModel(
-                        id = "3",
-                        name = "Litecoin",
-                        symbol = "LTC",
-                        price = "€136.36",
-                        changePercent24Hr = "+2.00%",
-                        changeColor = CoinUIModel.ChangeColors.Positive,
-                    ),
+        coins =
+            persistentListOf(
+                CoinsUiList(
+                    title = "Gainers",
+                    assets =
+                        persistentListOf(
+                            CoinUIModel(
+                                id = "6",
+                                name = "Polkadot",
+                                symbol = "DOT",
+                                price = "€22.73",
+                                changePercent24Hr = "+3.00%",
+                                changeColor = CoinUIModel.ChangeColors.Positive,
+                            ),
+                            CoinUIModel(
+                                id = "3",
+                                name = "Litecoin",
+                                symbol = "LTC",
+                                price = "€136.36",
+                                changePercent24Hr = "+2.00%",
+                                changeColor = CoinUIModel.ChangeColors.Positive,
+                            ),
+                        ),
+                ),
+                CoinsUiList(
+                    title = "Gainers",
+                    assets = persistentListOf(),
                 ),
             ),
-            CoinsUiList(
-                title = "Gainers",
-                assets = persistentListOf(),
-            )
-        ),
-        currencies = persistentListOf(
-            CurrencyUIModel(
-                id = "british-pound-sterling",
-                name = "british-pound-sterling",
-                isSelected = false,
+        currencies =
+            persistentListOf(
+                CurrencyUIModel(
+                    id = "british-pound-sterling",
+                    name = "british-pound-sterling",
+                    isSelected = false,
+                ),
+                CurrencyUIModel(
+                    id = "euro",
+                    name = "euro",
+                    isSelected = true,
+                ),
+                CurrencyUIModel(
+                    id = "united-states-dollar",
+                    name = "united-states-dollar",
+                    isSelected = false,
+                ),
             ),
-            CurrencyUIModel(
-                id = "euro",
-                name = "euro",
-                isSelected = true,
-            ),
-            CurrencyUIModel(
-                id = "united-states-dollar",
-                name = "united-states-dollar",
-                isSelected = false,
-            )
-        ),
     )
 
     @Preview(showBackground = true)

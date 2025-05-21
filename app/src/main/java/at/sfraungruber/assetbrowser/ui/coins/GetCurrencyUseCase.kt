@@ -12,16 +12,13 @@ import javax.inject.Singleton
  * UseCase to fetch data from the repositories and format it to show the data on the UI.
  */
 @Singleton
-class GetCurrencyUseCase
-@Inject
-constructor(
+class GetCurrencyUseCase @Inject constructor(
     private val currencyRepository: CurrencyRepository,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) {
-    suspend operator fun invoke(currency: at.sfraungruber.assetbrowser.data.Currency): Currency =
-        withContext(ioDispatcher) {
-            return@withContext currencyRepository.getCurrencyConversion(
-                currency = currency,
-            )
-        }
+    suspend operator fun invoke(currency: at.sfraungruber.assetbrowser.data.Currency): Currency = withContext(ioDispatcher) {
+        return@withContext currencyRepository.getCurrencyConversion(
+            currency = currency,
+        )
+    }
 }

@@ -11,9 +11,7 @@ import javax.inject.Singleton
  * be extended to persist user preferences.
  */
 @Singleton
-class UserPreferences
-@Inject
-constructor() {
+class UserPreferences @Inject constructor() {
     private val _preferredCurrency = MutableStateFlow(Currency.Euro)
 
     val preferredCurrency: Flow<Currency> = _preferredCurrency

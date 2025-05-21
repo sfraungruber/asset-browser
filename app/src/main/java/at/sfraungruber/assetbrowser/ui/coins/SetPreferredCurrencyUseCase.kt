@@ -12,9 +12,7 @@ import javax.inject.Singleton
  * UseCase to fetch data from the repositories and format it to show the data on the UI.
  */
 @Singleton
-class SetPreferredCurrencyUseCase
-@Inject
-constructor(
+class SetPreferredCurrencyUseCase @Inject constructor(
     private val userPreferences: UserPreferences,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) {

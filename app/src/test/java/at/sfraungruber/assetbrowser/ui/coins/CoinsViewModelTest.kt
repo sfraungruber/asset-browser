@@ -21,33 +21,35 @@ import org.junit.Rule
 import org.junit.Test
 
 class CoinsViewModelTest {
-
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
     private val getAssetsUseCase = mockk<GetAssetsUseCase>()
-    private val getPreferredCurrencyFlowUseCase = mockk<GetPreferredCurrencyFlowUseCase> {
-        every { this@mockk.invoke() } returns MutableStateFlow(Currency.Euro)
-    }
+    private val getPreferredCurrencyFlowUseCase =
+        mockk<GetPreferredCurrencyFlowUseCase> {
+            every { this@mockk.invoke() } returns MutableStateFlow(Currency.Euro)
+        }
     private val getCurrencyUseCase = mockk<GetCurrencyUseCase>()
     private val formatAssetListUseCase = mockk<FormatAssetListUseCase>()
     private val setPreferredCurrencyUseCase = mockk<SetPreferredCurrencyUseCase>()
-    private val valueFormatter = mockk<FormattingUtils> {
-        every { format(any()) } answers {
-            (it.invocation.args.first() as Currency).id
+    private val valueFormatter =
+        mockk<FormattingUtils> {
+            every { format(any()) } answers {
+                (it.invocation.args.first() as Currency).id
+            }
         }
-    }
 
-    private val expectedAssets = persistentListOf(
-        CoinsUiList(
-            title = "top",
-            assets = uiCoinsTopFive,
-        ),
-        CoinsUiList(
-            title = "worst",
-            assets = uiCoinsTopFive,
-        ),
-    )
+    private val expectedAssets =
+        persistentListOf(
+            CoinsUiList(
+                title = "top",
+                assets = uiCoinsTopFive,
+            ),
+            CoinsUiList(
+                title = "worst",
+                assets = uiCoinsTopFive,
+            ),
+        )
 
     @After
     fun cleanup() {
@@ -55,104 +57,102 @@ class CoinsViewModelTest {
     }
 
     @Test
-    fun `Given useCase returns data When viewModel created Then coins are returned as expected`() =
-        runTest {
-            // Given
-            coEvery { getAssetsUseCase() } returns assets
-            coEvery { getPreferredCurrencyFlowUseCase() } returns flowOf(Currency.Euro)
-            coEvery { getCurrencyUseCase(Currency.Euro) } returns currency
-            coEvery { formatAssetListUseCase(assets, currency) } returns expectedAssets
+    fun `Given useCase returns data When viewModel created Then coins are returned as expected`() = runTest {
+        // Given
+        coEvery { getAssetsUseCase() } returns assets
+        coEvery { getPreferredCurrencyFlowUseCase() } returns flowOf(Currency.Euro)
+        coEvery { getCurrencyUseCase(Currency.Euro) } returns currency
+        coEvery { formatAssetListUseCase(assets, currency) } returns expectedAssets
 
-            // When
-            val viewModel = createViewModel()
+        // When
+        val viewModel = createViewModel()
 
-            // Then
-            viewModel.state.test {
-                assertEquals(
-                    CoinsViewModel.State.Initial,
-                    awaitItem(),
-                )
+        // Then
+        viewModel.state.test {
+            assertEquals(
+                CoinsViewModel.State.Initial,
+                awaitItem(),
+            )
 
-                assertEquals(
-                    CoinsViewModel.State.Data(
-                        isLoading = true,
-                        coins = null,
-                        currencies = currencies,
-                    ),
-                    awaitItem(),
-                )
+            assertEquals(
+                CoinsViewModel.State.Data(
+                    isLoading = true,
+                    coins = null,
+                    currencies = currencies,
+                ),
+                awaitItem(),
+            )
 
-                assertEquals(
-                    CoinsViewModel.State.Data(
-                        isLoading = false,
-                        coins = expectedAssets,
-                        currencies = currencies,
-                    ),
-                    awaitItem(),
-                )
-            }
+            assertEquals(
+                CoinsViewModel.State.Data(
+                    isLoading = false,
+                    coins = expectedAssets,
+                    currencies = currencies,
+                ),
+                awaitItem(),
+            )
         }
+    }
 
     @Test
-    fun `Given UseCase throws exception first time When load Then coins are returned after initial error`() =
-        runTest {
-            // Given
-            var count = 0
-            coEvery { getAssetsUseCase() } returns assets
-            coEvery { getPreferredCurrencyFlowUseCase() } returns flowOf(Currency.Euro)
-            coEvery { getCurrencyUseCase(Currency.Euro) } answers {
-                when (count++) {
-                    0 -> throw IllegalStateException("test exception")
-                    else -> currency
-                }
-            }
-            coEvery { formatAssetListUseCase(assets, currency) } returns expectedAssets
-
-            // When
-            val viewModel = createViewModel()
-
-            // Then
-            viewModel.state.test {
-                assertEquals(
-                    CoinsViewModel.State.Initial,
-                    awaitItem(),
-                )
-
-                assertEquals(
-                    CoinsViewModel.State.Data(
-                        isLoading = true,
-                        coins = null,
-                        currencies = currencies,
-                    ),
-                    awaitItem(),
-                )
-
-                assertEquals(
-                    CoinsViewModel.State.Error,
-                    awaitItem(),
-                )
-
-                viewModel.onEvent(CoinsViewModel.UserEvent.Load)
-
-                assertEquals(
-                    CoinsViewModel.State.Data(
-                        isLoading = true,
-                        coins = null,
-                        currencies = currencies,
-                    ),
-                    awaitItem(),
-                )
-
-                assertEquals(
-                    CoinsViewModel.State.Data(
-                        isLoading = false,
-                        coins = expectedAssets,
-                        currencies = currencies,
-                    ),
-                    awaitItem(),
-                )
+    fun `Given UseCase throws exception first time When load Then coins are returned after initial error`() = runTest {
+        // Given
+        var count = 0
+        coEvery { getAssetsUseCase() } returns assets
+        coEvery { getPreferredCurrencyFlowUseCase() } returns flowOf(Currency.Euro)
+        coEvery { getCurrencyUseCase(Currency.Euro) } answers {
+            when (count++) {
+                0 -> throw IllegalStateException("test exception")
+                else -> currency
             }
         }
+        coEvery { formatAssetListUseCase(assets, currency) } returns expectedAssets
+
+        // When
+        val viewModel = createViewModel()
+
+        // Then
+        viewModel.state.test {
+            assertEquals(
+                CoinsViewModel.State.Initial,
+                awaitItem(),
+            )
+
+            assertEquals(
+                CoinsViewModel.State.Data(
+                    isLoading = true,
+                    coins = null,
+                    currencies = currencies,
+                ),
+                awaitItem(),
+            )
+
+            assertEquals(
+                CoinsViewModel.State.Error,
+                awaitItem(),
+            )
+
+            viewModel.onEvent(CoinsViewModel.UserEvent.Load)
+
+            assertEquals(
+                CoinsViewModel.State.Data(
+                    isLoading = true,
+                    coins = null,
+                    currencies = currencies,
+                ),
+                awaitItem(),
+            )
+
+            assertEquals(
+                CoinsViewModel.State.Data(
+                    isLoading = false,
+                    coins = expectedAssets,
+                    currencies = currencies,
+                ),
+                awaitItem(),
+            )
+        }
+    }
 
     private fun createViewModel(): CoinsViewModel {
         return CoinsViewModel(

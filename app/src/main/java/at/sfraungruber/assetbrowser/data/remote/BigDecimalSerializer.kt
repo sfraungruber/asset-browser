@@ -29,10 +29,9 @@ object BigDecimalSerializer : KSerializer<BigDecimal> {
         else -> encoder.encodeString(value.toPlainString())
     }
 
-    override fun deserialize(decoder: Decoder): BigDecimal =
-        when (decoder) {
-            // must use decodeJsonElement() to get the value, and then convert it to a BigDecimal
-            is JsonDecoder -> decoder.decodeJsonElement().jsonPrimitive.content.toBigDecimal()
-            else -> decoder.decodeString().toBigDecimal()
-        }
+    override fun deserialize(decoder: Decoder): BigDecimal = when (decoder) {
+        // must use decodeJsonElement() to get the value, and then convert it to a BigDecimal
+        is JsonDecoder -> decoder.decodeJsonElement().jsonPrimitive.content.toBigDecimal()
+        else -> decoder.decodeString().toBigDecimal()
+    }
 }

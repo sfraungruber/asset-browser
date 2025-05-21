@@ -12,36 +12,35 @@ import org.junit.Test
 
 class CurrencyRepositoryTest {
     private val mockApi = mockk<CurrencyApi>()
-    private val repository = CurrencyRepository(
-        currencyApi = mockApi,
-    )
+    private val repository =
+        CurrencyRepository(
+            currencyApi = mockApi,
+        )
 
     @Test
-    fun `Given API returns response When get coins from repository Then expected response`() =
-        runTest {
-            // Given
-            coEvery { mockApi.getRateById("euro") } returns currencyResponse
+    fun `Given API returns response When get coins from repository Then expected response`() = runTest {
+        // Given
+        coEvery { mockApi.getRateById("euro") } returns currencyResponse
 
-            // When
-            val result = repository.getCurrencyConversion(Currency.Euro)
+        // When
+        val result = repository.getCurrencyConversion(Currency.Euro)
 
-            // Then
-            assertEquals(
-                currency,
-                result,
-            )
-        }
+        // Then
+        assertEquals(
+            currency,
+            result,
+        )
+    }
 
     @Test(expected = IllegalArgumentException::class)
-    fun `When API throws exception Then exception is mapped`() =
-        runTest {
-            // Given
-            coEvery { mockApi.getRateById() } throws IllegalArgumentException("some exception")
+    fun `When API throws exception Then exception is mapped`() = runTest {
+        // Given
+        coEvery { mockApi.getRateById() } throws IllegalArgumentException("some exception")
 
-            // When
-            repository.getCurrencyConversion(Currency.Euro)
+        // When
+        repository.getCurrencyConversion(Currency.Euro)
 
-            // Then
-            // exception is thrown
-        }
+        // Then
+        // exception is thrown
+    }
 }

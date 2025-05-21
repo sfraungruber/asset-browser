@@ -8,16 +8,16 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
 class GetAssetsUseCaseTest {
-
     // TODO: replace with JUnit Rule
     private val testDispatcher = StandardTestDispatcher()
 
     private val coinsRepository: CoinRepository = mockk()
 
-    private val getCoinsUseCase = GetAssetsUseCase(
-        coinsRepository = coinsRepository,
-        ioDispatcher = testDispatcher,
-    )
+    private val getCoinsUseCase =
+        GetAssetsUseCase(
+            coinsRepository = coinsRepository,
+            ioDispatcher = testDispatcher,
+        )
 
     @Test(expected = IllegalArgumentException::class)
     fun `When repository throws exception Then exception is rethrown`() = runTest(testDispatcher) {

@@ -10,9 +10,7 @@ import javax.inject.Singleton
  * UseCase to fetch data from the repositories and format it to show the data on the UI.
  */
 @Singleton
-class GetPreferredCurrencyFlowUseCase
-@Inject
-constructor(
+class GetPreferredCurrencyFlowUseCase @Inject constructor(
     private val userPreferences: UserPreferences,
 ) {
     operator fun invoke(): Flow<Currency> = userPreferences.preferredCurrency

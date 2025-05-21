@@ -12,14 +12,11 @@ import javax.inject.Singleton
  * UseCase to fetch data from the repositories and format it to show the data on the UI.
  */
 @Singleton
-class GetAssetsUseCase
-@Inject
-constructor(
+class GetAssetsUseCase @Inject constructor(
     private val coinsRepository: CoinRepository,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) {
-    suspend operator fun invoke(): List<Asset> =
-        withContext(ioDispatcher) {
-            return@withContext coinsRepository.getCoins().data
-        }
+    suspend operator fun invoke(): List<Asset> = withContext(ioDispatcher) {
+        return@withContext coinsRepository.getCoins().data
+    }
 }

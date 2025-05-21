@@ -15,9 +15,7 @@ import javax.inject.Singleton
  * UseCase to fetch data from the repositories and format it to show the data on the UI.
  */
 @Singleton
-class FormatAssetListUseCase
-@Inject
-constructor(
+class FormatAssetListUseCase @Inject constructor(
     @ApplicationContext private val appContext: Context,
     private val valueFormatter: FormattingUtils,
 ) {
@@ -31,48 +29,52 @@ constructor(
         return listOf(
             CoinsUiList(
                 title = appContext.getString(R.string.gainers),
-                assets = sortedCoins
-                    .take(numberOfCoins)
-                    .mapToCoinUi(currency)
-                    .toImmutableList(),
+                assets =
+                    sortedCoins
+                        .take(numberOfCoins)
+                        .mapToCoinUi(currency)
+                        .toImmutableList(),
             ),
             CoinsUiList(
                 title = appContext.getString(R.string.losers),
-                assets = sortedCoins
-                    .takeLast(numberOfCoins)
-                    .reversed()
-                    .mapToCoinUi(currency)
-                    .toImmutableList(),
-            )
+                assets =
+                    sortedCoins
+                        .takeLast(numberOfCoins)
+                        .reversed()
+                        .mapToCoinUi(currency)
+                        .toImmutableList(),
+            ),
         )
     }
 
-    private fun List<Asset>.mapToCoinUi(currency: Currency): List<CoinUIModel> =
-        map {
-            CoinUIModel(
-                id = it.id,
-                name = it.name,
-                symbol = it.symbol,
-                price =
-                    valueFormatter.formatCurrency(
-                        value =
-                            it.priceUsd.divide(
-                                /* divisor = */ currency.rateUsd,
-                                /* scale = */ 2,
-                                /* roundingMode = */ RoundingMode.HALF_UP,
-                            ).toDouble(),
-                        currencySymbol = currency.currencySymbol,
-                    ),
-                changePercent24Hr =
-                    valueFormatter.formatValueChange(
-                        value = it.changePercent24Hr.toDouble(),
-                    ),
-                changeColor =
-                    if (it.changePercent24Hr.toDouble() < 0) {
-                        CoinUIModel.ChangeColors.Negative
-                    } else {
-                        CoinUIModel.ChangeColors.Positive
-                    },
-            )
-        }
+    private fun List<Asset>.mapToCoinUi(currency: Currency): List<CoinUIModel> = map {
+        CoinUIModel(
+            id = it.id,
+            name = it.name,
+            symbol = it.symbol,
+            price =
+                valueFormatter.formatCurrency(
+                    value =
+                        it.priceUsd.divide(
+                            // divisor =
+                            currency.rateUsd,
+                            // scale =
+                            2,
+                            // roundingMode =
+                            RoundingMode.HALF_UP,
+                        ).toDouble(),
+                    currencySymbol = currency.currencySymbol,
+                ),
+            changePercent24Hr =
+                valueFormatter.formatValueChange(
+                    value = it.changePercent24Hr.toDouble(),
+                ),
+            changeColor =
+                if (it.changePercent24Hr.toDouble() < 0) {
+                    CoinUIModel.ChangeColors.Negative
+                } else {
+                    CoinUIModel.ChangeColors.Positive
+                },
+        )
+    }
 }

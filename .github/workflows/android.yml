@@ -41,5 +41,8 @@ jobs:
         touch ./local.properties
         echo COINCAP_API_KEY=$COINCAP_API_KEY >> ./production.properties
       
-    - name: Build with Gradle
-      run: ./gradlew :app:testProductionDebugUnitTest
+    - name: Run checks with Gradle
+      run: |
+        ./gradlew ktlintCheck
+        ./gradlew :app:testProductionDebugUnitTest
+        ./gradlew :app:validateProductionDebugScreenshotTest

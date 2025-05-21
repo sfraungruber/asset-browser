@@ -22,54 +22,56 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class FormatAssetListUseCaseTest {
-
-    private val appContext = mockk<Context> {
-        every { getString(R.string.gainers) } returns "Gainers"
-        every { getString(R.string.losers) } returns "Losers"
-    }
+    private val appContext =
+        mockk<Context> {
+            every { getString(R.string.gainers) } returns "Gainers"
+            every { getString(R.string.losers) } returns "Losers"
+        }
 
     private val coinRepository: CoinRepository = mockk()
     private val currencyRepository: CurrencyRepository = mockk()
 
     private val userPreferences: UserPreferences = mockk()
 
-    private val formatAssetListUseCase: FormatAssetListUseCase = FormatAssetListUseCase(
-        appContext,
-        FormattingUtils(appContext),
-    )
+    private val formatAssetListUseCase: FormatAssetListUseCase =
+        FormatAssetListUseCase(
+            appContext,
+            FormattingUtils(appContext),
+        )
 
     @Test
-    fun `When call UseCase Then expected coins are returned`() =
-        runTest {
-            // Given
-            val numberOfCoins = 3
-            every { userPreferences.preferredCurrency } returns flowOf(Euro)
-            coEvery { coinRepository.getCoins() } returns baseCoinResponse.copy(
+    fun `When call UseCase Then expected coins are returned`() = runTest {
+        // Given
+        val numberOfCoins = 3
+        every { userPreferences.preferredCurrency } returns flowOf(Euro)
+        coEvery { coinRepository.getCoins() } returns
+            baseCoinResponse.copy(
                 // shuffle data to test sorting
                 data = baseCoinResponse.data.shuffled(),
             )
-            coEvery { currencyRepository.getCurrencyConversion(currency = Euro) } returns currency
+        coEvery { currencyRepository.getCurrencyConversion(currency = Euro) } returns currency
 
-            // When
-            val result = formatAssetListUseCase(
+        // When
+        val result =
+            formatAssetListUseCase(
                 assets = assets,
                 currency = currency,
                 numberOfCoins = numberOfCoins,
             )
 
-            // Then
-            assertEquals(
-                listOf(
-                    CoinsUiList(
-                        title = "Gainers",
-                        assets = uiCoinsTopFive.take(numberOfCoins).toImmutableList(),
-                    ),
-                    CoinsUiList(
-                        title = "Losers",
-                        assets = uiCoinsWorstFive.take(numberOfCoins).toImmutableList(),
-                    ),
+        // Then
+        assertEquals(
+            listOf(
+                CoinsUiList(
+                    title = "Gainers",
+                    assets = uiCoinsTopFive.take(numberOfCoins).toImmutableList(),
                 ),
-                result,
-            )
-        }
+                CoinsUiList(
+                    title = "Losers",
+                    assets = uiCoinsWorstFive.take(numberOfCoins).toImmutableList(),
+                ),
+            ),
+            result,
+        )
+    }
 }

@@ -12,27 +12,23 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class FormattingUtils
-@Inject
-constructor(
+class FormattingUtils @Inject constructor(
     @ApplicationContext private val context: Context,
 ) {
     fun formatCurrency(
         value: Double,
         currencySymbol: String,
-    ): String =
-        DecimalFormat("0.00").apply {
-            positivePrefix = currencySymbol
-            negativePrefix = currencySymbol
-        }.format(value)
+    ): String = DecimalFormat("0.00").apply {
+        positivePrefix = currencySymbol
+        negativePrefix = currencySymbol
+    }.format(value)
 
-    fun formatValueChange(value: Double): String =
-        DecimalFormat("0.00").apply {
-            negativePrefix = "-"
-            positivePrefix = "+"
-            negativeSuffix = "%"
-            positiveSuffix = "%"
-        }.format(value)
+    fun formatValueChange(value: Double): String = DecimalFormat("0.00").apply {
+        negativePrefix = "-"
+        positivePrefix = "+"
+        negativeSuffix = "%"
+        positiveSuffix = "%"
+    }.format(value)
 
     fun format(currency: Currency): String = when (currency) {
         BritishPoundSterling -> context.getString(R.string.currency_gbp)

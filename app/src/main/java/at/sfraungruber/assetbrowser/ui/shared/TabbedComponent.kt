@@ -3,19 +3,15 @@ package at.sfraungruber.assetbrowser.ui.shared
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Divider
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -46,7 +42,7 @@ fun TabbedComponent(vararg tabs: Tab) {
         }
 
         HorizontalDivider(
-            modifier = Modifier.padding(top = Spaces.Medium)
+            modifier = Modifier.padding(top = Spaces.Medium),
         )
 
         tabs[selectedTabIndex].content()

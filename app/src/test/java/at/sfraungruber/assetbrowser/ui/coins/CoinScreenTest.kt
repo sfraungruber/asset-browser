@@ -24,44 +24,49 @@ class CoinScreenTest {
 
     private val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
 
-    private val dataState = CoinsViewModel.State.Data(
-        isLoading = false,
-        currencies = persistentListOf(
-            CurrencyUIModel(
-                id = "euro",
-                name = "Euro",
-                isSelected = true,
-            )
-        ),
-        coins = persistentListOf(
-            CoinsUiList(
-                title = "Gainers",
-                assets = persistentListOf(
-                    CoinUIModel(
-                        id = "6",
-                        name = "Winner #1",
-                        symbol = "W1",
-                        price = "€12",
-                        changePercent24Hr = "+10.00%",
-                        changeColor = CoinUIModel.ChangeColors.Positive,
+    private val dataState =
+        CoinsViewModel.State.Data(
+            isLoading = false,
+            currencies =
+                persistentListOf(
+                    CurrencyUIModel(
+                        id = "euro",
+                        name = "Euro",
+                        isSelected = true,
                     ),
                 ),
-            ),
-            CoinsUiList(
-                title = "Losers",
-                assets = persistentListOf(
-                    CoinUIModel(
-                        id = "6",
-                        name = "Loser #1",
-                        symbol = "L1",
-                        price = "€21",
-                        changePercent24Hr = "-10.00%",
-                        changeColor = CoinUIModel.ChangeColors.Negative,
+            coins =
+                persistentListOf(
+                    CoinsUiList(
+                        title = "Gainers",
+                        assets =
+                            persistentListOf(
+                                CoinUIModel(
+                                    id = "6",
+                                    name = "Winner #1",
+                                    symbol = "W1",
+                                    price = "€12",
+                                    changePercent24Hr = "+10.00%",
+                                    changeColor = CoinUIModel.ChangeColors.Positive,
+                                ),
+                            ),
+                    ),
+                    CoinsUiList(
+                        title = "Losers",
+                        assets =
+                            persistentListOf(
+                                CoinUIModel(
+                                    id = "6",
+                                    name = "Loser #1",
+                                    symbol = "L1",
+                                    price = "€21",
+                                    changePercent24Hr = "-10.00%",
+                                    changeColor = CoinUIModel.ChangeColors.Negative,
+                                ),
+                            ),
                     ),
                 ),
-            ),
-        ),
-    )
+        )
 
     @Test
     fun testCoinListTabSwitch() {
@@ -70,7 +75,7 @@ class CoinScreenTest {
             CoinsScreen(
                 state = dataState,
                 onRefresh = { },
-                onCurrencySelected = { }
+                onCurrencySelected = { },
             )
         }
         composeTestRule.onNodeWithText("Winner #1").assertIsDisplayed()
@@ -96,7 +101,7 @@ class CoinScreenTest {
                 onRefresh = {
                     onRefreshCalled = true
                 },
-                onCurrencySelected = { }
+                onCurrencySelected = { },
             )
         }
 
@@ -118,7 +123,7 @@ class CoinScreenTest {
             CoinsScreen(
                 state = CoinsViewModel.State.Error,
                 onRefresh = { retryButtonClicked = true },
-                onCurrencySelected = { }
+                onCurrencySelected = { },
             )
         }
 
