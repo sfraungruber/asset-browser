@@ -39,7 +39,7 @@ jobs:
         GRADLE_PROPERTIES: ${{ secrets.COINCAP_API_KEY }}
       shell: bash
       run: |
-        echo "COINCAP_API_KEY=${GRADLE_PROPERTIES}" > ~/.gradle/production.properties
+        echo "COINCAP_API_KEY=${GRADLE_PROPERTIES}" > ./production.properties
       
     - name: Build with Gradle
       run: ./gradlew :app:testProductionDebugUnitTest
