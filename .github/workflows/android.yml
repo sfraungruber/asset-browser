@@ -33,13 +33,13 @@ jobs:
     - name: Accept licenses
       run: yes | sdkmanager --licenses || true
 
-    - name: Create production.properties
+    - name: Create properties files
       env:
         COINCAP_API_KEY: ${{secrets.COINCAP_API_KEY}}
       shell: bash
       run: |
+        touch ./local.properties
         echo COINCAP_API_KEY=$COINCAP_API_KEY >> ./production.properties
-        cat ./production.properties
       
     - name: Build with Gradle
       run: ./gradlew :app:testProductionDebugUnitTest
