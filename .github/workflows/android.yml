@@ -52,4 +52,4 @@ jobs:
       if: success() || failure()
       with:
         name: screenshot-test-result
-        path: output/reports/screenshotTest/preview/debug/production/
+        path: ./app/build/reports/screenshotTest/preview/debug/production/
