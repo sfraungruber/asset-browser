@@ -46,3 +46,10 @@ jobs:
         ./gradlew ktlintCheck
         ./gradlew :app:testProductionDebugUnitTest
         ./gradlew :app:validateProductionDebugScreenshotTest
+
+    - name: Safe Artifacts
+      uses: actions/upload-artifact@v4
+      if: success() || failure()
+      with:
+        name: screenshot-test-result
+        path: ./app/build/reports/screenshotTest/preview/debug/production/
