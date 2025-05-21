@@ -73,6 +73,9 @@ android {
         unitTests {
             isIncludeAndroidResources = true
         }
+        screenshotTests {
+            imageDifferenceThreshold = 0.0005f // 0.05%
+        }
     }
     experimentalProperties["android.experimental.enableScreenshotTest"] = true
 }
