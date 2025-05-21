@@ -49,6 +49,7 @@ jobs:
 
     - name: Safe Artifacts
       uses: actions/upload-artifact@v4
+      if: success() || failure()
       with:
         name: screenshot-test-result
         path: output/reports/screenshotTest/preview/debug/production/
