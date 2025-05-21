@@ -1,0 +1,45 @@
+name: Android CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: set up JDK 21
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+        cache: gradle
+        
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@v4
+      
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+
+    - name: Accept licenses
+      run: yes | sdkmanager --licenses || true
+
+    - name: Create properties files
+      env:
+        COINCAP_API_KEY: ${{secrets.COINCAP_API_KEY}}
+      shell: bash
+      run: |
+        touch ./local.properties
+        echo COINCAP_API_KEY=$COINCAP_API_KEY >> ./production.properties
+      
+    - name: Build with Gradle
+      run: ./gradlew :app:testProductionDebugUnitTest
