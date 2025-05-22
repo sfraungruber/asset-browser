@@ -113,6 +113,7 @@ private fun TabbedCoinsList(
                     DropdownMenu(
                         expanded = showCurrencySelection,
                         onDismissRequest = { showCurrencySelection = true },
+                        modifier = Modifier.background(MaterialTheme.colorScheme.surface),
                     ) {
                         data.currencies?.forEach {
                             DropdownMenuItem(
